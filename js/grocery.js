@@ -68,7 +68,24 @@ var total = 0;
 // Exercise 1
 function addToCartList(id) {
     // 1. Loop for to the array products to get the item to add to cart
+    for (let i=0; i < products.length; i++) {
+        if ( products.indexOf(products[i]) + 1 === id) {
+            console.log(id);
+            addItem(i);         
+        }
+    }
     // 2. Add found product to the cartList array
+    function addItem(i) {
+        const item = {
+            name: products[i].name,
+            price: products[i].price,
+            type: products[i].type,
+            count: 1,
+        }    
+        console.log(item);
+        cartList.push(item);
+        console.log(cartList);
+    }
 }
 
 // Exercise 2
@@ -105,6 +122,7 @@ function applyPromotionsCart() {
 
 // Exercise 8
 function addToCart(id) {
+    addToCartList(id);
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cartList array
 }
