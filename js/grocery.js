@@ -86,17 +86,36 @@ function addToCartList(id) {
         cartList.push(item);
         console.log(cartList);
     }
+    // Print on the console the subtotals after adding a product
+    calculateSubtotals();
 }
 
 // Exercise 2
 function cleanCart() {
-
+    cartList.length = 0;
+    console.log(cartList);
 }
 
 // Exercise 3
 function calculateSubtotals() {
+    let subtotalGrocery = subtotal.grocery.value;
+    let subtotalBeauty = subtotal.beauty.value;
+    let subtotalClothes = subtotal.clothes.value;
     // 1. Create a for loop on the "cartList" array 
-    // 2. Implement inside the loop an if...else or switch...case to add the quantities of each type of product, obtaining the subtotals: subtotalGrocery, subtotalBeauty and subtotalClothes
+    for (let i=0; i < cartList.length; i++) {
+        let price = cartList[i].price;
+        // 2. Implement inside the loop an if...else or switch...case to add the quantities of each type of product, obtaining the subtotals: subtotalGrocery, subtotalBeauty and subtotalClothes
+        if (cartList[i].type === 'grocery') {
+            subtotalGrocery += price;           
+        } else if (cartList[i].type === 'beauty') {
+            subtotalBeauty += price;           
+        } else {
+            subtotalClothes += price;           
+        } 
+    }    
+    console.log(subtotalGrocery);
+    console.log(subtotalBeauty);
+    console.log(subtotalClothes);
 }
 
 // Exercise 4
@@ -132,8 +151,6 @@ function removeFromCart(id) {
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cartList array
 }
-
-
 
 // Exercise 10
 function printCart() {
