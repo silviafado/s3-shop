@@ -116,11 +116,18 @@ function calculateSubtotals() {
     console.log(subtotalGrocery);
     console.log(subtotalBeauty);
     console.log(subtotalClothes);
+    let totalArray = [subtotalGrocery, subtotalBeauty, subtotalClothes];
+    calculateTotal(totalArray);
 }
 
 // Exercise 4
-function calculateTotal() {
+function calculateTotal(totalArray) {
     // Calculate total price of the cart either using the "cartList" array
+    let sumTotal = total;
+    for (let x in totalArray) {
+        sumTotal += totalArray[x];
+    }
+    console.log(sumTotal);
 }
 
 // Exercise 5
