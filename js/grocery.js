@@ -83,6 +83,11 @@ function addToCartList(id) {
             count: 1,
         }    
         console.log(item);
+        for (var x in cartList) {
+            if (cartList[x].name === item.name) {
+                cartList[x].count ++;
+            } 
+        }    
         cartList.push(item);
         console.log(cartList);
     }
@@ -132,7 +137,15 @@ function calculateTotal(totalArray) {
 
 // Exercise 5
 function applyPromotionsSubtotals() {
-
+    // Loop to check cooking oil quantity and apply the discounted price
+    for (let i in cartList) {
+        if (cartList[i].name === 'cooking oil' && cartList[i].count > 3) {
+            cartList[i].price = 10;
+        } else if (cartList[i].name === 'Instant cupcake mixture' && cartList[i].count > 10) {
+            cartList[i].price = (cartList[i].price/3) * 2;    
+        }
+    }  
+    calculateSubtotals(); 
 }
 
 // Exercise 6
