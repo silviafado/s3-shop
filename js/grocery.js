@@ -144,18 +144,26 @@ function applyPromotionsSubtotals(sumTotal) {
             let oilDiscount = cartList[i].count * 0.5;
             sumTotal -= oilDiscount;
             console.log('Total price with cooking oil discount '+sumTotal);
+            return;
         } else if (cartList[i].name === 'Instant cupcake mixture' && cartList[i].count > 10) {
             let mixDiscount = (cartList[i].price/3) * cartList[i].count;
             sumTotal -= mixDiscount;
             console.log('Total price with cupcake ixture discount '+sumTotal);
+            return;
         }
     }  
 }
 
 // Exercise 6
-function generateCart() {
-    // Using the "cartlist" array that contains all the items in the shopping cart, 
-    // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
+function generateCart(cartList) {
+    // Loop for the array cartList to generate the aray cart with no repeated items
+    for (let i in cartList) {
+        if (cart.indexOf(cartList[i]) === -1) {
+            cart.push(cartList[i]);
+        }
+    }
+    console.log(cart);
+    return cart;    
 }
 
 // Exercise 7
