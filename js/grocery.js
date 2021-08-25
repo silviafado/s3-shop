@@ -154,17 +154,38 @@ function applyPromotionsSubtotals(sumTotal) {
     }  
 }
 
+
+
 // Exercise 6
-function generateCart(cartList) {
-    // Loop for the array cartList to generate the aray cart with no repeated items
-    for (let i in cartList) {
-        if (cart.indexOf(cartList[i]) === -1) {
-            cart.push(cartList[i]);
-        }
+function generateCart(name, price, type, count, subtotal) { 
+    for(let i in cartList) {
+        let cartItem = function (name, price, type, count, subtotal) {
+            this.name = name = cartList[i].name
+            this.price = price = cartList[i].price
+            this.type = type = cartList[i].type
+            this.count = count = cartList[i].count
+            this.subtotal = subtotal = cartList[i].price * cartList[i].count
+            
+        }; 
+        let item = new cartItem(name, price, type, count, subtotal);
+        for(let j in cart) {
+            if(cart[j].name === item.name) {           
+                cart[j].quantity = cart[j].count;
+                console.log('hola'+ cart[j].quantity);
+            }      
+        }  
+        console.log(item);
+        cart.push(item);  
     }
-    console.log(cart);
-    return cart;    
+    console.log(cart);  
+    const objects = cart;
+    const result = objects.filter(object => object.count < 2);
+    console.log(result);
 }
+
+
+
+
 
 // Exercise 7
 function applyPromotionsCart() {
