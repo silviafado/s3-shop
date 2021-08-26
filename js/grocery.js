@@ -158,6 +158,7 @@ function applyPromotionsSubtotals(sumTotal) {
 
 // Exercise 6
 function generateCart(name, price, type, count, subtotal) { 
+    cart.length = 0;
     for(let i in cartList) {
         let cartItem = function (name, price, type, count, subtotal) {
             this.name = name = cartList[i].name
@@ -165,22 +166,48 @@ function generateCart(name, price, type, count, subtotal) {
             this.type = type = cartList[i].type
             this.count = count = cartList[i].count
             this.subtotal = subtotal = cartList[i].price * cartList[i].count
-            
+            this.discounted = discounted = applyPromotionsSubtotals(this.subtotal)
         }; 
         let item = new cartItem(name, price, type, count, subtotal);
-        for(let j in cart) {
-            if(cart[j].name === item.name) {           
-                cart[j].quantity = cart[j].count;
-                console.log('hola'+ cart[j].quantity);
-            }      
-        }  
         console.log(item);
-        cart.push(item);  
+        cart.push(item); 
     }
-    console.log(cart);  
-    const objects = cart;
-    const result = objects.filter(object => object.count < 2);
-    console.log(result);
+    console.log(cart);
+    const result = [];
+    result.push(cart[0]);
+    let currentName = cart[0].name;
+    let max = cart[0].count;
+    let maxItem = cart[0];
+    for(let i=1; i < cart.length; i++){
+        if (currentName != cart[i].name){
+            max = cart[i].count;
+            currentName = cart[i].name;
+            maxItem = cart[i];
+            console.log('1' + cart[i].name);
+            result.push(maxItem)
+        } else if (currentName === cart[i].name) {
+            if (cart[i].count > max) {
+                currentName = cart[i].name;
+                maxItem = cart[i];
+                console.log('2' + cart[i].name);
+                result.push(maxItem);
+            }
+        }
+    }  
+    console.log(result);  
+        /*const objects = cart;
+        const result = objects.filter(object => object.length == max);
+        console.log(result);  */
+    
+    
+    
+    /*for(let j in result) { 
+        if (result[j].name === cart.name){
+        result[j].quantity = cart[cart.length-1].count;
+        result[j].subtotal = cart.subtotal;
+        result[j].dicounted = cart.subtotal ;   
+        }       
+    }*/
 }
 
 
