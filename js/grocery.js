@@ -137,86 +137,67 @@ function calculateTotal(totalArray) {
 }
 
 // Exercise 5
+// Function to apply the discounts
 function applyPromotionsSubtotals(sumTotal) {
     // Loop to check cooking oil quantity and apply the discounted price
     for (let i in cartList) {
         if (cartList[i].name === 'cooking oil' && cartList[i].count > 3) {
-            let oilDiscount = cartList[i].count * 0.5;
+            const oilDiscount = cartList[i].count * 0.5;
             sumTotal -= oilDiscount;
             console.log('Total price with cooking oil discount '+sumTotal);
-            return;
+            return oilDiscount;
         } else if (cartList[i].name === 'Instant cupcake mixture' && cartList[i].count > 10) {
-            let mixDiscount = (cartList[i].price/3) * cartList[i].count;
+            const mixDiscount = (cartList[i].price/3) * cartList[i].count;
             sumTotal -= mixDiscount;
-            console.log('Total price with cupcake ixture discount '+sumTotal);
-            return;
+            console.log('Total price with cupcake mixture discount '+sumTotal);
+            return mixDiscount;
         }
     }  
 }
 
-
-
 // Exercise 6
-function generateCart(name, price, type, count, subtotal) { 
+function generateCart() { 
+    // Clean cart to calculate each time we add a new product
     cart.length = 0;
-    for(let i in cartList) {
-        let cartItem = function (name, price, type, count, subtotal) {
-            this.name = name = cartList[i].name
-            this.price = price = cartList[i].price
-            this.type = type = cartList[i].type
-            this.count = count = cartList[i].count
-            this.subtotal = subtotal = cartList[i].price * cartList[i].count
-            this.discounted = discounted = applyPromotionsSubtotals(this.subtotal)
-        }; 
-        let item = new cartItem(name, price, type, count, subtotal);
-        console.log(item);
-        cart.push(item); 
-    }
-    console.log(cart);
-    const result = [];
-    result.push(cart[0]);
-    let currentName = cart[0].name;
-    let max = cart[0].count;
-    let maxItem = cart[0];
-    for(let i=1; i < cart.length; i++){
-        if (currentName != cart[i].name){
-            max = cart[i].count;
-            currentName = cart[i].name;
-            maxItem = cart[i];
-            console.log('1' + cart[i].name);
-            result.push(maxItem)
-        } else if (currentName === cart[i].name) {
-            if (cart[i].count > max) {
-                currentName = cart[i].name;
-                maxItem = cart[i];
-                console.log('2' + cart[i].name);
-                result.push(maxItem);
+    // Loop cartList array to remove repeated products
+    cart.push(cartList[0]);
+    let currentName = cartList[0].name;
+    let max = cartList[0].count;
+    let maxItem = cartList[0];
+    for(let i=1; i < cartList.length; i++){
+        if (currentName != cartList[i].name){
+            max = cartList[i].count;
+            currentName = cartList[i].name;
+            maxItem = cartList[i];
+            cart.push(maxItem);
+        } else if (currentName === cartList[i].name) {
+            if (cartList[i].count > max) {
+                currentName = cartList[i].name;
+                maxItem = cartList[i];
+                cart.push(maxItem);
             }
         }
     }  
-    console.log(result);  
-        /*const objects = cart;
-        const result = objects.filter(object => object.length == max);
-        console.log(result);  */
-    
-    
-    
-    /*for(let j in result) { 
-        if (result[j].name === cart.name){
-        result[j].quantity = cart[cart.length-1].count;
-        result[j].subtotal = cart.subtotal;
-        result[j].dicounted = cart.subtotal ;   
-        }       
-    }*/
+    // Add new properties to the array cart
+    for(let i in cart) {
+        cart[i].subtotal = cart[i].price * cart[i].count;
+        cart[i].subtotalWithDiscount = cart[i].subtotal;   
+    }
+    console.log(cart);
 }
-
-
-
-
 
 // Exercise 7
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
+    for(let i in cart) { 
+        if(cart[i].name === 'cooking oil') {
+            oilDiscount2 = applyPromotionsSubtotals();
+            cart[i].subtotalWithDiscount -= oilDiscount2;
+        } else if(cart[i].name === 'Instant cupcake mixture') {    
+            mixDiscount2 = applyPromotionsSubtotals();
+            cart[i].subtotalWithDiscount -= mixDiscount2;
+        } 
+    }       
 }
 
 // Exercise 8
