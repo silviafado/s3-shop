@@ -103,9 +103,9 @@ function cleanCart() {
 
 // Exercise 3
 function calculateSubtotals() {
-    let subtotalGrocery = subtotal.grocery.value;
-    let subtotalBeauty = subtotal.beauty.value;
-    let subtotalClothes = subtotal.clothes.value;
+    let subtotalGrocery = 0;
+    let subtotalBeauty = 0;
+    let subtotalClothes = 0;
     // 1. Create a for loop on the "cartList" array 
     for (let i=0; i < cartList.length; i++) {
         let price = cartList[i].price;
@@ -117,40 +117,46 @@ function calculateSubtotals() {
         } else {
             subtotalClothes += price;           
         } 
-    }    
-    console.log(subtotalGrocery);
-    console.log(subtotalBeauty);
-    console.log(subtotalClothes);
-    let totalArray = [subtotalGrocery, subtotalBeauty, subtotalClothes];
+    }  
+    let totalArray = [subtotalGrocery, subtotalBeauty, subtotalClothes];  
+    subtotal.grocery.value = subtotalGrocery;
+    subtotal.beauty.value = subtotalBeauty;
+    subtotal.clothes.value = subtotalClothes;
+    console.log(subtotal);
     calculateTotal(totalArray);
 }
 
 // Exercise 4
 function calculateTotal(totalArray) {
     // Calculate total price of the cart either using the "cartList" array
-    let sumTotal = total;
+    let sumTotal = 0 - subtotal.grocery.discount;
     for (let x in totalArray) {
         sumTotal += totalArray[x];
     }
-    console.log(sumTotal);
-    applyPromotionsSubtotals(sumTotal);
+    total = sumTotal;
+    console.log(total);
 }
 
 // Exercise 5
 // Function to apply the discounts
-function applyPromotionsSubtotals(sumTotal) {
+function applyPromotionsSubtotals() {
     // Loop to check cooking oil quantity and apply the discounted price
     for (let i in cartList) {
-        if (cartList[i].name === 'cooking oil' && cartList[i].count > 3) {
+        if (cartList[i].name === 'cooking oil' && cartList[i].count >3) {
             const oilDiscount = cartList[i].count * 0.5;
-            sumTotal -= oilDiscount;
-            console.log('Total price with cooking oil discount '+sumTotal);
-            return oilDiscount;
-        } else if (cartList[i].name === 'Instant cupcake mixture' && cartList[i].count > 10) {
+            total -= oilDiscount;
+            subtotal.grocery.discount = oilDiscount;
+            console.log('Total with cooking oil discount '+total);
+            return;
+        }
+    }
+    for (let i in cartList) {    
+        if (cartList[i].name === 'Instant cupcake mixture' && cartList[i].count > 10) {
             const mixDiscount = (cartList[i].price/3) * cartList[i].count;
-            sumTotal -= mixDiscount;
-            console.log('Total price with cupcake mixture discount '+sumTotal);
-            return mixDiscount;
+            total -= mixDiscount;
+            subtotal.grocery.discount +=mixDiscount;
+            console.log('Total with cupcake mixture discount '+total);
+            return;
         }
     }  
 }
@@ -181,29 +187,39 @@ function generateCart() {
     // Add new properties to the array cart
     for(let i in cart) {
         cart[i].subtotal = cart[i].price * cart[i].count;
-        cart[i].subtotalWithDiscount = cart[i].subtotal;   
+        cart[i].subtotalWithDiscount = cart[i].subtotal /* - subtotal.grocery.discount; */  // Now is calculated on next function applyPromotionsCart()
     }
     console.log(cart);
+    applyPromotionsCart();
+    console.log('Total with discounts applied '+total);
 }
 
 // Exercise 7
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
-    for(let i in cart) { 
-        if(cart[i].name === 'cooking oil') {
-            oilDiscount2 = applyPromotionsSubtotals();
-            cart[i].subtotalWithDiscount -= oilDiscount2;
-        } else if(cart[i].name === 'Instant cupcake mixture') {    
-            mixDiscount2 = applyPromotionsSubtotals();
-            cart[i].subtotalWithDiscount -= mixDiscount2;
-        } 
-    }       
+    for (let i in cart) {
+        if (cart[i].name === 'cooking oil' && cart[i].count >3) {
+            const oilDiscount = cart[i].count * 0.5;
+            cart[i].subtotalWithDiscount -= oilDiscount;
+            subtotal.grocery.discount = oilDiscount;
+            console.log('Cooking oil subtotal discounted '+cart[i].subtotalWithDiscount);
+        } else if (cart[i].name === 'Instant cupcake mixture' && cart[i].count > 10) {
+            const mixDiscount = (cart[i].price/3) * cart[i].count;
+            cart[i].subtotalWithDiscount -= mixDiscount;
+            subtotal.grocery.discount +=mixDiscount;
+            console.log('Cupcake mixture subtotal discounted '+cart[i].subtotalWithDiscount);
+        }
+    }  
+    total -= subtotal.grocery.discount;  
 }
 
 // Exercise 8
 function addToCart(id) {
+    // Redirecting to addToCartList() function for previous exercises
     addToCartList(id);
+
     // 1. Loop for to the array products to get the item to add to cart
+
     // 2. Add found product to the cartList array
 }
 
