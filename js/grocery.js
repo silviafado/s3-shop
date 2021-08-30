@@ -264,23 +264,16 @@ function addToCart(id) {
         cart[i].subtotalWithDiscount = cart[i].subtotal;
     }
     console.log(cart);
-    // Print the total when adding a product
+    // 4. Print the total when adding a product
     total = 0;
     for (let i in cart) {
         total += cart[i].subtotal;
     }    
     console.log(total);
-    // Call the promotions function to calculate final price with discounts
+    // 5. Call the promotions function to calculate final price with discounts
     applyPromotionsCart();
     console.log('Total with discounts applied ' + total);
 }
-
-
-
-
-
-
-
 
 // Exercise 9
 function removeFromCart(id) {
