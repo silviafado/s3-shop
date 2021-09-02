@@ -22,50 +22,55 @@ phone.setAttribute("required", "");
 
 // Exercise 9
 function validate() {
-    // Clean error messages if entry is ok
+    // Clean error messages when starting validation
     errorName.style.display = 'none';
     errorPhone.style.display = 'none';
     errorPassword.style.display = 'none';
-    // Validate fields entered by the user: name, phone, password, and email
-    // 1 . Check if required fields are filled in
-    /*if (name1.value, email.value, address.value, last.value, password.value, phone.value == '') {
-        alert('All fields must be filled out');
-        console.log('hola contingut');
-        return false;
-    }*/
-    // 2. Check all fields are longer than 3 characters
-    /*if (name1.value.length, email.value.length, address.value.length, last.value.length, password.value.length, phone.value.length < 3) {
-        alert('All field need to be at least 3 characters long.');
-        console.log('hola 3 caracters');
-        return false;
-    }*/
-    // 3. Name and last name contain only letters
-    // Define variable to check if name and surname are letters
+
+    // Define Regex variable for alphabet values only
     const regEx = /^[A-Za-z]+$/;
-    if (!name1.value, !last.value.match(regEx)) {
+    // Define Regex variable for only numbers
+    const numbers = /^[0-9]+$/;
+    // Define regex for password format
+    const passwordRegex = /^([a-zA-Z0-9]+)$/;
+    // Define Regex for email format
+    const mailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+    // Validate fields entered by the user
+    // Name and Last Name validation
+    if (name1.value, last.value == '' || name1.value.length, last.value.length < 3 || !name1.value, !last.value.match(regEx)) {
+        alert('Name and Last Name are mandatory and need to be at least 3 characters long.');
         errorName.style.display = 'block';
-        console.log('hola nom lletres');
         name1.focus();
+        last.focus();
         return false;
     }
-    // 4. Phone contains only numbers
-    // Define variable to check if phone is only numbers
-    const numbers = /^[0-9]+$/;
-    if (!phone.value.match(numbers)) {
+    // Email validation
+    if (email.value == '' || email.value.length < 3 || !email.value.match(mailRegex)) {
+        alert('Email is mandatory and needs to be at least 3 characters long.');
+        errorMail.style.display = 'block';
+        email.focus();
+        return false;
+    }
+    // Password validation
+    if (password.value == '' || password.value.length < 3 || !password.value.match(regEx)) {
+        alert('Password is mandatory and needs to be at least 3 characters long.');
+        errorPassword.style.display = 'block';
+        password.focus();
+        return false;
+    }
+    // Address validation    
+    if (address.value == '' || address.value.length < 3) {
+        alert('Address is mandatory and needs to be at least 3 characters long.');
+        address.focus();
+        return false;
+    }
+    // Phone validation
+    if (phone.value == '' || phone.value.length < 3 || !phone.value.match(numbers)) {
+        alert('Phone is mandatory and needs to be at least 3 characters long.');
         errorPhone.style.display = 'block';
-        console.log('hola phone numbers');
         phone.focus();
         return false;
     }
-    // 5. Password contains number and letters
-    // Define regex for password
-    const passwordRegex = /^([a-zA-Z0-9]+)$/;
-    if (!password.value.match(regEx)) {
-        errorPassword.style.display = 'block';
-        console.log('hola password');
-        password.focus();
-        return false;
-    } 
-    console.log('adios');
-    return true;   
+    return true;
 }
