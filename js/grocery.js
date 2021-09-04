@@ -268,18 +268,36 @@ function addToCart(id) {
     total = 0;
     for (let i in cart) {
         total += cart[i].subtotal;
-    }    
+    }
     console.log(total);
     // 5. Call the promotions function to calculate final price with discounts
     applyPromotionsCart();
     console.log('Total with discounts applied ' + total);
 }
 
-// Exercise 9
+// Exercise 10
 function removeFromCart(id) {
-    // 1. Loop for to the array products to get the item to add to cart
-    // 2. Add found product to the cartList array
+    // 1. Loop for to the array products to get the item to remove from cart
+    for (let i = 0; i < products.length; i++) {
+        if (products.indexOf(products[i]) + 1 === id) {
+            removeItem(i);
+        }
+    }
+    // 2. Remove found product from the cart array
+    function removeItem(i) {
+        for (var x in cart) {
+            if (cart[x].name === products[i].name) {
+                if (cart[x].count === 1) {
+                    cart.splice(x, 1);
+                } else if (cart[x].count > 1) {
+                    cart[x].count--;
+                }
+            }
+        }
+        console.log(cart);
+    }
 }
+
 
 // Exercise 10
 function printCart() {
