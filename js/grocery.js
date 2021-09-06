@@ -1,6 +1,5 @@
-// Exercise 11
-// Move this variable to a json file and load the data in this js
-var products = [
+// Array with products in the e-store
+const products = [
     {
         name: 'cooking oil',
         price: 10.5,
@@ -47,9 +46,13 @@ var products = [
         type: 'clothes'
     }
 ]
-var cartList = [];
-var cart = [];
-var subtotal = {
+
+// Declare empty arrays to fill in with the bought products
+const cartList = [];
+const cart = [];
+
+// Declare variables for subtotals and total
+const subtotal = {
     grocery: {
         value: 0,
         discount: 0
@@ -63,7 +66,7 @@ var subtotal = {
         discount: 0
     },
 };
-var total = 0;
+let total = 0;
 
 // Exercise 1
 function addToCartList(id) {
@@ -138,7 +141,6 @@ function calculateTotal(totalArray) {
 }
 
 // Exercise 5
-// Function to apply the discounts
 function applyPromotionsSubtotals() {
     // Loop to check cooking oil quantity and apply the discounted price
     for (let i in cartList) {
@@ -198,19 +200,22 @@ function generateCart() {
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
     for (let i in cart) {
+        // Clean discounts to avoid errors on the loop
+        subtotal.grocery.discount = 0;
         if (cart[i].name === 'cooking oil' && cart[i].count > 3) {
             const oilDiscount = cart[i].count * 0.5;
             cart[i].subtotalWithDiscount -= oilDiscount;
             subtotal.grocery.discount = oilDiscount;
+            total -= oilDiscount;
             console.log('Cooking oil subtotal discounted ' + cart[i].subtotalWithDiscount);
         } else if (cart[i].name === 'Instant cupcake mixture' && cart[i].count > 10) {
             const mixDiscount = (cart[i].price / 3) * cart[i].count;
             cart[i].subtotalWithDiscount -= mixDiscount;
             subtotal.grocery.discount += mixDiscount;
+            total -= mixDiscount 
             console.log('Cupcake mixture subtotal discounted ' + cart[i].subtotalWithDiscount);
         }
-    }
-    total -= subtotal.grocery.discount;
+    }  
 }
 
 // Exercise 8
@@ -309,12 +314,16 @@ function printCart() {
         const cartRow = document.createElement('li');
         cartRow.classList.add('cart-row');
         const cartRowContent = `
-                <div class="item-column item-name col-3">${cart[x].name}</div>
-                <div class="item-colun item-price col-3">${cart[x].price}</div>
+                <div class="item-column item-name col-4">${cart[x].name}</div>
+                <div class="item-colun item-price col-2">${cart[x].price}€</div>
                 <div class="item-column item-quantity col-3">${cart[x].count}</div>
-                <div class="item-column item-subtotal col-3">${cart[x].subtotal}</div>`
-        console.log(cartRowContent);
+                <div class="item-column item-subtotal col-3">${cart[x].subtotal}€</div>`
         cartRow.innerHTML = cartRowContent;
         cartItems.append(cartRow);
     }
+    // Update discounts and total
+    const discountCart = document.getElementById('discount');
+    discountCart.innerHTML = Math.round(subtotal.grocery.discount * 10)/10 + '€';
+    const totalCart = document.getElementById('total');
+    totalCart.innerHTML = Math.round(total* 10)/10 + '€';
 }
