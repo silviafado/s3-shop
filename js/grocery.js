@@ -298,8 +298,23 @@ function removeFromCart(id) {
     }
 }
 
-
-// Exercise 10
+// Exercise 11
 function printCart() {
     // Fill the shopping cart modal manipulating the shopping cart dom
+    const cartItems = document.getElementsByClassName('cart-items')[0];
+    // Clean the cart to avoid repeated items
+    cartItems.replaceChildren();
+    // For loop to print cart items in the cart modal
+    for (let x in cart) {
+        const cartRow = document.createElement('li');
+        cartRow.classList.add('cart-row');
+        const cartRowContent = `
+                <div class="item-column item-name col-3">${cart[x].name}</div>
+                <div class="item-colun item-price col-3">${cart[x].price}</div>
+                <div class="item-column item-quantity col-3">${cart[x].count}</div>
+                <div class="item-column item-subtotal col-3">${cart[x].subtotal}</div>`
+        console.log(cartRowContent);
+        cartRow.innerHTML = cartRowContent;
+        cartItems.append(cartRow);
+    }
 }

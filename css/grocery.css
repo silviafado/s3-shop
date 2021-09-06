@@ -24,3 +24,17 @@ body{
     right: 0;
     margin-right: 1rem;
 }
+
+/* Cart modal styling */
+.cart-row {
+    display: flex;
+}
+
+ul {
+    list-style: none;
+}
+
+.cart-items {
+    padding: 0px;
+}
+
