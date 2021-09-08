@@ -33,7 +33,7 @@ function validate() {
     email.classList.remove('is-invalid');
     password.classList.remove('is-invalid');
     address.classList.remove('is-invalid');
-    phone.classList.remove('is-invalid');    
+    phone.classList.remove('is-invalid');
 
     // Define Regex variable for alphabet values only
     const regEx = /^[A-Za-z]+$/;
@@ -49,40 +49,28 @@ function validate() {
     if (name1.value, last.value == '' || name1.value.length, last.value.length < 3 || !name1.value, !last.value.match(regEx)) {
         name1.classList.add('is-invalid');
         last.classList.add('is-invalid');
-        alert('Name and Last Name are mandatory and need to be at least 3 characters long.');
         errorName.style.display = 'block';
-        return false;
     }
     // Email validation
     if (email.value == '' || email.value.length < 3 || !email.value.match(mailRegex)) {
         email.classList.add('is-invalid');
-        alert('Email is mandatory and needs to be at least 3 characters long.');
         errorMail.style.display = 'block';
-        email.focus();
-        return false;
     }
     // Password validation
     if (password.value == '' || password.value.length < 3 || !password.value.match(passwordRegex)) {
         password.classList.add('is-invalid');
-        alert('Password is mandatory and needs to be at least 4 characters long.');
         errorPassword.style.display = 'block';
-        password.focus();
-        return false;
     }
     // Address validation    
     if (address.value == '' || address.value.length < 3) {
         address.classList.add('is-invalid');
-        alert('Address is mandatory and needs to be at least 3 characters long.');
-        address.focus();
-        return false;
     }
     // Phone validation
     if (phone.value == '' || phone.value.length < 3 || !phone.value.match(numbers)) {
         phone.classList.add('is-invalid');
-        alert('Phone is mandatory and needs to be at least 3 characters long.');
         errorPhone.style.display = 'block';
-        phone.focus();
-        return false;
+    } else {
+        return true;
     }
-    return true;
+    alert('All fields are mandatory and need to be at least 3 characters long.');
 }
