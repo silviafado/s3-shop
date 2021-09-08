@@ -47,5 +47,18 @@ ul {
     text-align: center;
 }
 
+.item-quantity {
+    display: flex;
+    justify-content: space-evenly;
+}
+.minus-item {
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    align-items: center;
+    color: white;
+    border: none;
+}
+
 
 

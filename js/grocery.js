@@ -121,22 +121,21 @@ function calculateSubtotals() {
             subtotalClothes += price;
         }
     }
-    let totalArray = [subtotalGrocery, subtotalBeauty, subtotalClothes];
     subtotal.grocery.value = subtotalGrocery;
     subtotal.beauty.value = subtotalBeauty;
     subtotal.clothes.value = subtotalClothes;
     console.log(subtotal);
-    calculateTotal(totalArray);
+    calculateTotal();
 }
 
 // Exercise 4
-function calculateTotal(totalArray) {
+function calculateTotal() {
+    let totalArray = [subtotal.grocery.value, subtotal.beauty.value, subtotal.clothes.value];
     // Calculate total price of the cart either using the "cartList" array
-    let sumTotal = 0 - subtotal.grocery.discount;
+    total = 0;
     for (let x in totalArray) {
-        sumTotal += totalArray[x];
+        total += totalArray[x];
     }
-    total = sumTotal;
     console.log(total);
 }
 
@@ -212,16 +211,16 @@ function applyPromotionsCart() {
             const mixDiscount = (cart[i].price / 3) * cart[i].count;
             cart[i].subtotalWithDiscount -= mixDiscount;
             subtotal.grocery.discount += mixDiscount;
-            total -= mixDiscount 
+            total -= mixDiscount
             console.log('Cupcake mixture subtotal discounted ' + cart[i].subtotalWithDiscount);
         }
-    }  
+    }
 }
 
 // Exercise 8
 function addToCart(id) {
     // Redirecting to addToCartList() function for previous exercises
-    /* addToCartList(id); */
+    addToCartList(id);
 
     // 1. Loop for to the array products to get the item to add to cart
     for (let i = 0; i < products.length; i++) {
@@ -248,7 +247,6 @@ function addToCart(id) {
             for (let i = 0; i < cart.length; i++) {
                 if (item.name === cart[i].name) {
                     cart[i].count++;
-                    console.log('1 Estic aqui ' + item.name);
                     result = true;
                     return result;
                 }
@@ -257,7 +255,6 @@ function addToCart(id) {
             for (let i = 0; i < cart.length; i++) {
                 if (item.name !== cart[i].name) {
                     cart.push(item);
-                    console.log('2 Estic aqui ' + item.name);
                     return;
                 }
             }
@@ -281,26 +278,28 @@ function addToCart(id) {
 }
 
 // Exercise 10
-function removeFromCart(id) {
+function removeFromCart(event) {
     // 1. Loop for to the array products to get the item to remove from cart
-    for (let i = 0; i < products.length; i++) {
-        if (products.indexOf(products[i]) + 1 === id) {
-            removeItem(i);
-        }
-    }
-    // 2. Remove found product from the cart array
-    function removeItem(i) {
-        for (var x in cart) {
-            if (cart[x].name === products[i].name) {
-                if (cart[x].count === 1) {
-                    cart.splice(x, 1);
-                } else if (cart[x].count > 1) {
-                    cart[x].count--;
-                }
+    for (let i in cart) {
+        if (cart[i].name === event.target.dataset.name) {
+            if (cart[i].count === 1) {
+                cart.splice(i, 1);
+            } else if (cart[i].count > 1) {
+                cart[i].count--;
+                cart[i].subtotal -= cart[i].price;
             }
         }
-        console.log(cart);
     }
+    // 4. Update the total when removing a product
+    total = 0;
+    for (let i in cart) {
+        total += cart[i].subtotal;
+    }
+    console.log(total);
+    // 5. Call the promotions function to update final price with discounts in the cart
+    applyPromotionsCart();
+    console.log('Total with discounts applied ' + total);
+    printCart();
 }
 
 // Exercise 11
@@ -316,14 +315,17 @@ function printCart() {
         const cartRowContent = `
                 <div class="item-column item-name col-4">${cart[x].name}</div>
                 <div class="item-colun item-price col-2">${cart[x].price}€</div>
-                <div class="item-column item-quantity col-3">${cart[x].count}</div>
+                <div class="item-column item-quantity col-3">
+                    <div class="item-column item-quantity">${cart[x].count}</div>
+                    <button type="button" onclick="removeFromCart(event)" data-name="${cart[x].name}" class="item-column item-quantity minus-item bg-secondary">-</div>
+                </div>    
                 <div class="item-column item-subtotal col-3">${cart[x].subtotal}€</div>`
         cartRow.innerHTML = cartRowContent;
         cartItems.append(cartRow);
     }
     // Update discounts and total
     const discountCart = document.getElementById('discount');
-    discountCart.innerHTML = Math.round(subtotal.grocery.discount * 10)/10 + '€';
+    discountCart.innerHTML = Math.round(subtotal.grocery.discount * 10) / 10 + '€';
     const totalCart = document.getElementById('total');
-    totalCart.innerHTML = Math.round(total* 10)/10 + '€';
+    totalCart.innerHTML = Math.round(total * 10) / 10 + '€';
 }
