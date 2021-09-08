@@ -45,9 +45,13 @@ function validate() {
     const mailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
     // Validate fields entered by the user
-    // Name and Last Name validation
-    if (name1.value, last.value == '' || name1.value.length, last.value.length < 3 || !name1.value, !last.value.match(regEx)) {
+    // Name validation
+    if (name1.value == '' || name1.value.length < 3 || !name1.value.match(regEx)) {
         name1.classList.add('is-invalid');
+        errorName.style.display = 'block';
+    }
+    // Last Name validation
+    if (last.value == '' || last.value.length < 3 || !last.value.match(regEx)) {
         last.classList.add('is-invalid');
         errorName.style.display = 'block';
     }
